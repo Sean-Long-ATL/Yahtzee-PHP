@@ -35,25 +35,28 @@ foreach($content as $result){
 //pulls info from cookie, 
 $score = $_COOKIE["score"];
 $user = $_COOKIE['login'];
-$score = 500;
-$userScore = array($user => $score); //declares array for comparing to high scores
+//$score = 500; //for debugging
 
 
 //adds user score to array
 //sorts array
 //pops last value
  //reset gets first value
-$highScore[$user]= $score;
+
+$highScores[$user]= $score;
 arsort($highScores, SORT_NUMERIC);
-array_pop($highScores);
 
 fclose($myFile);
+$keys = array_keys($highScores);
+
 
 //prints highScores into table 
 echo "<table>";
 echo "<th> User</th>";
 echo "<th> Hi-Score</th>";
-foreach($highScores as $k => $v){
+for($i=0; $i<5; $i++ ){
+    $k=$keys[$i];
+    $v = $highScores[$k];
     echo "<tr>";
     echo "<td>".$k."</td>";
     echo "<td>".$v."</td>";
@@ -61,10 +64,11 @@ foreach($highScores as $k => $v){
 }
 echo "</table>";
 
+$myFile2 = fopen("highscore.txt", "w");
+fclose($myFile2);
 
 $myFile2 = fopen("highscore.txt", "w");
 
-$keys = array_keys($highScores);
 for($i=0; $i<5; $i++ ){
     
     $key=$keys[$i];
@@ -75,10 +79,9 @@ for($i=0; $i<5; $i++ ){
     else{
         fwrite($myFile2, $key.":".$value); //this is so no comma is added at EOF
     }
-        $stringbreak= "\n";
+        $stringbreak = "\n";
     fwrite($myFile2, $stringbreak);
 }
-fclose($myFile2);
 
 
 
