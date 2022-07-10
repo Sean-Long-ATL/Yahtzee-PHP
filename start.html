@@ -1,0 +1,30 @@
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Yahtzee Game!</title>
+    <link rel="stylesheet" href="./game.css">
+  </head>
+  <body>
+ 
+
+
+    <!-- updates diceCount within classes.php, post forms not working as intended not sure why !-->
+    <div id="levels">
+        <h3> Choose the number of dice for your game. More dice is easier</h3>        
+        <form action="game.php" method="post">
+        <input type="submit" name="diceCount" value="5"/>
+        </form>
+       
+        <form action="game.php" method="post">
+        <input type="submit" name="diceCount" value="6"/>
+        </form>
+        
+        <form action="game.php" method="post">
+        <input type="submit" name="diceCount" value="7"/>
+        </form>
+    </div>
+  </body>
+</html>
