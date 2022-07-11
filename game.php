@@ -13,8 +13,6 @@
 	    
         <?php
         
-        $website = "npcomplete-solutions.com";
-        
         // Class definitions
         
         
@@ -94,7 +92,10 @@ class DiceCup {
     //
     function setDieLock($ndx,$val) {
        global $diceCuplocked;  // an array to hold the dice locks
-       
+       if ($val){
+           //echo ">>>>>>>>>>>>>>>>>>>$ndx<br>";
+           //debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+       }
        $diceCuplocked[$ndx] = $val;
     } 
 
@@ -155,7 +156,7 @@ class DiceCup {
             $d = $diceArr[$n];
             //$d->getValue(); 
             $val = $n+1;
-            echo "Die: $val value $d  <br>"; 
+            //echo "Die: $val value $d  <br>"; 
         }
     }
 }
@@ -178,6 +179,9 @@ class DiceCup {
 //
 class ScoreBoard {
 
+
+    var $turnCount; 
+    
     // Index values
     const THREEKIND = 6;
     const FOURKIND = 7;
@@ -200,18 +204,24 @@ class ScoreBoard {
         global $valUnlocked; // if this value has been used (so locked)
         global $diceCup;     // Cup of dice
         global $labels;      // Text labels for each cell in table
-        global $turnCount;   // count of current turn
+        //global $turnCount;   // count of current turn
+        global $prpoints;    // Points to be earned/chosen previous rolls
         
         
         // Corrosponding external scoreboard values
         global $prpoints;      // Points chosen from a turn
+
+
+        // Debug        echo "Initialize Scoreboard<br>";  // Debug
+        //echo "In constr  #die $numDice, #turn set to $turn_count<br>";
+        $this->turnCount = $turn_count;
+
 
         // Initialize
         $values = array(); 
         $points = array(); 
         $valUnlocked = array();
         $diceCup = new DiceCup($numDice);
-        $turnCount = $turn_count;
         $labels = array();
         $this->clearboard(TRUE);
 
@@ -262,10 +272,13 @@ class ScoreBoard {
     //   arg: restart is boolean: if true, clears all games points
     //         Used at game start or restart
     function clearboard($restart) {
-        
-       global $values;
-       global $points;
-       global $valUnlocked;
+        global $values;      // Values of dice
+        global $points;      // Points to be earned by this roll of dice
+        global $valUnlocked; // if this value has been used (so locked)
+        global $diceCup;     // Cup of dice
+        global $labels;      // Text labels for each cell in table
+       // global $turnCount;   // count of current turn
+        global $prpoints;    // Points to be earned/chosen previous rolls
        
        for ($n=0; $n<self::VALCNT; $n++) {
            if ($n < 6) {
@@ -275,6 +288,7 @@ class ScoreBoard {
 
 	       $valUnlocked[$n] = TRUE;
            $points[$n] = 0;
+           $prpoints[$n] = 0;
            if ($restart) {$points[$n] = 0;}
         }
     }
@@ -288,7 +302,9 @@ class ScoreBoard {
         global $points;      // Points to be earned by this roll of dice
         global $valUnlocked; // if this value has been used (so locked)
         global $diceCup;     // Cup of dice
-        global $labels;
+        global $labels;      // Text labels for each cell in table
+        //global $turnCount;   // count of current turn
+        global $prpoints;    // Points to be earned/chosen previous rolls
 
         $diceCup->printDice();
 
@@ -366,21 +382,97 @@ class ScoreBoard {
         
         switch ($choice) {
             case "One":
+            case "Ones":
                 $ndx = 0;
                 break;
             case "Two":
+            case "Twos":
                 $ndx = 1;
                 break;
             case "Three":
+            case "Threes":
                 $ndx = 2;
                 break;
             case "Four":
+            case "Fours":
                 $ndx = 3;
                 break;
-            case "Five":
+            case "Five";
+            case "Fives":
                 $ndx = 4;
                 break;
             case "Six":
+            case "Sixs":
+                $ndx = 5;
+                break;
+            case "Three of a kind":                  
+                $ndx = self::THREEKIND;
+                break;
+            case "Four of a kind":                  
+                $ndx = self::FOURKIND;
+                break;
+            case "Full House":                  
+                $ndx = self::FULLH;
+                break;
+            case "Short Straight":                  
+                $ndx = self::SHORTSTRT;
+                break;
+            case "Straight":                  
+                $ndx = self::STRT;
+                break;
+            case "Yahtzee":                  
+                $ndx = self::YAHTZEE;
+                break;
+            case "Chance":                  
+                $ndx = self::CHANCE;
+                break;
+            default:
+                echo "Error: $choice incorrect type:$choice:<br> ";
+                $ndx = 0;
+	    } 
+        return $ndx;
+    }
+
+    // chooseEntry
+    //   This allows choice of an value in table. No action will occur
+    //  if entry is locked. Choice of this entry will return the points of 
+    //  that choice and result in the locking of that entry for this game
+    //  and moving of the values the the external value tables
+    //
+    function chooseEntry($choice) {
+        global $values;      // Values of dice
+        global $points;      // Points to be earned by this roll of dice
+        global $valUnlocked; // if this value has been used (so locked)
+        global $diceCup;     // Cup of dice
+        global $labels;      // Text labels for each cell in table
+        //global $turnCount;   // count of current turn
+        
+        // Corrosponding external scoreboard values
+        global $prpoints;    // Points to be earned/chosen previous rolls
+        
+        switch ($choice) {
+            case "One":
+            case "Ones":
+                $ndx = 0;
+                break;
+            case "Two":
+            case "Twos":
+                $ndx = 1;
+                break;
+            case "Three":
+            case "Threes":
+                $ndx = 2;
+                break;
+            case "Four":
+            case "Fours":
+                $ndx = 3;
+                break;
+            case "Five";
+            case "Fives":
+                $ndx = 4;
+                break;
+            case "Six":
+            case "Sixs":
                 $ndx = 5;
                 break;
             case "Three of a kind":                  
@@ -408,26 +500,8 @@ class ScoreBoard {
                 echo "Error: $choice incorrect type:$choice:<br> ";
                 $ndx = 0;
 	    }
-        return $ndx;
-    }
 
-    // chooseEntry
-    //   This allows choice of an value in table. No action will occur
-    //  if entry is locked. Choice of this entry will return the points of 
-    //  that choice and result in the locking of that entry for this game
-    //  and moving of the values the the external value tables
-    //
-    function chooseEntry($choice) {
-        global $values;      // Values of dice
-        global $points;      // Points to be earned by this roll of dice
-        global $valUnlocked; // if this value has been used (so locked)
-        
-        // Corrosponding external scoreboard values
-        global $prpoints;    // Points to be earned/chosen previous rolls
-        
-        echo "$choice<br>";
-        $ndx = choiceInputTranslate($choice);
-        
+
         $valUnlocked[$ndx] = FALSE;
         $prpoints[$ndx] = $points[$ndx];
         
@@ -451,10 +525,13 @@ class ScoreBoard {
     //    based on the most recent roll (values in dicecup param). 
     //
     function updateBoard() {
-       global $values; // board values - used each roll
-       global $points; // board points - used each roll
-       global $valUnlocked; // board locks - session
-       global $diceCup;     // session
+        global $values;      // Values of dice
+        global $points;      // Points to be earned by this roll of dice
+        global $valUnlocked; // if this value has been used (so locked)
+        global $diceCup;     // Cup of dice
+        global $labels;      // Text labels for each cell in table
+        //global $turnCount;   // count of current turn
+        global $prpoints;    // Points to be earned/chosen previous rolls
        
        $fourkind = FALSE;
        $threekind = FALSE;
@@ -463,7 +540,6 @@ class ScoreBoard {
        $strt = FALSE;
        $sstrt = FALSE;
        
-       $diceCup->rollDice();
 
        // Update the counts of dice/values
        for ($n=0; $n<6; $n++) {
@@ -527,10 +603,13 @@ class ScoreBoard {
         $values[self::YAHTZEE] = $yahtzee;
         $values[self::CHANCE] = FALSE;
         $points[self::CHANCE] = rand(12,25);
+
+        
    }
 
    //////////
    // Informational methods
+
 
        // Dice informational
 
@@ -551,6 +630,7 @@ class ScoreBoard {
        $arr = array();
        for ($n = 0; $n < $diceCup->diceCount(); $n++) {
            $arr[$n] = $diceCup->getDieVal($n);
+//           echo "$n val = $diceCup->getDieVal($n)<br>";
        }
        return $arr;
    }
@@ -611,9 +691,10 @@ class ScoreBoard {
         global $values;      // Values of dice
         global $points;      // Points to be earned by this roll of dice
         global $valUnlocked; // if this value has been used (so locked)
-
-        // Corrosponding external scoreboard values
-        global $prpoints;      // Points chosen from a turn
+        global $diceCup;     // Cup of dice
+        global $labels;      // Text labels for each cell in table
+        //global $turnCount;   // count of current turn
+        global $prpoints;    // Points to be earned/chosen previous rolls
 
         $arr = array();
         
@@ -633,71 +714,226 @@ class ScoreBoard {
             return $arr;            
         }
    }
-    
-    
-    
      
    // getScoreBoardLocks
    //    Returns associative array of score locks
    //
    function getScoreBoardLocks() {
+        global $values;      // Values of dice
+        global $points;      // Points to be earned by this roll of dice
         global $valUnlocked; // if this value has been used (so locked)
+        global $diceCup;     // Cup of dice
+        global $labels;      // Text labels for each cell in table
+        //global $turnCount;   // count of current turn
+        global $prpoints;    // Points to be earned/chosen previous rolls
 
         $arr = array();
         
-        for ($n = 0; $n < 13; $n++) {
+        for ($n = 0; $n < self::VALCNT; $n++) {
             $key = choiceOutputTranslate($n);
             $arr[$key] = $valUnlocked[$n];
         }
         return $arr;            
    }     
 
+
+   // printScoreBoardTable
+   //   outputs the tabel html for the scoreboard, just the rows/tds
+   function printScoreBoardTable() {
+        global $values;      // Values of dice
+        global $points;      // Points to be earned by this roll of dice
+        global $valUnlocked; // if this value has been used (so locked)
+        global $diceCup;     // Cup of dice
+        global $labels;      // Text labels for each cell in table
+        //global $turnCount;   // count of current turn
+        global $prpoints;    // Points to be earned/chosen previous rolls
+
+
+        $cnt = self::VALCNT;
+        //echo "debug    $cnt<br>";
+        for ($n = 0; $n < $cnt; $n++) {
+// KLUDGE
+        switch ($n) {
+            case 0:
+                $val = "One";
+                break;
+            case 1:
+                $val = "Two";
+                break;
+            case 2:
+                $val = "Three";
+                break;
+            case 3:
+                $val = "Four";
+                break;
+            case 4:
+                $val = "Five";
+                break;
+            case 5:
+                $val = "Six";
+                break;
+            case 6:
+                $val = "Three of a kind";
+                break;
+            case 7:
+                $val = "Four of a kind";
+                break;
+            case 8:
+                $val = "Full House";
+                break;
+            case 9:
+                $val = "Short Straight";
+                break;
+            case 10:
+                $val = "Straight";
+                break;
+            case 11:
+                $val = "Yahtzee";
+                break;
+            case 12:
+                $val = "Chance";
+                break;
+            default:
+                echo "Error: $choice incorrect type<br>";
+                $val = "Error";
+	    }
+        $label = $val;
+        // END KLUDGE
+        //$label = choiceOuputTranslate($n);
+
+            echo ('<tr>');
+
+            // First cell
+            echo ('   <td> <label>');
+            if ($valUnlocked[$n]) {
+               echo ('<input type="radio" id="');
+                   echo $label;
+                   if ($n < 6) {
+                       echo "s";
+                   }
+                   echo ('" name="ScoreCard" value="');
+                   echo $label;
+                   if ($n < 6) {
+                       echo "s";
+                   }
+                   echo ('">');
+            }       
+            
+            echo $label;
+            if ($n < 6) {
+               echo "s";
+            }
+            echo ('</label></td>');   // End of first cell
+            
+            // Second Cell
+            echo (' <td>');
+            $spaces = 5;
+            
+            if ($valUnlocked[$n]) {
+                if ($points[$n] > 9) {
+                    $spaces = $spaces - 1;
+                }
+                $str = $points[$n];
+            }
+            else {
+                $str = $prpoints[$n];
+                if ($points[$n] > 9) {
+                    $spaces = $spaces - 1;
+                }
+            }
+            for ($i=0; $i < $spaces; $i++) {
+                echo "&nbsp;";
+            }
+            echo $str;
+            
+            echo ('</td> ');  // Second Cell
+            echo (' </tr>');          // End of row
+        }
+    }
+
    // getTurnCount
    //    Returns current turn number
    //
    function getTurnCount() {
-       global $turnCount;
-       return $turnCount;
+       //global $turnCount;
+       return $this->turnCount;
    }
+
    // setTurnCount
    //    sets current turn number
    //
    function setTurnCount($tc) {
-       global $turnCount;
-       $turnCount = $tc;
+       //global $turnCount;
+       //echo "TC is set to $tc<br>";
+       $this->turnCount = $tc;
    }
+   
+   
     // saveBoard
     //   Records board/dice data to array for cookie
     //      returns array for cookie
     //
     function saveBoard() {
-       global $diceCup;     // session
-       global $prpoints;
-       global $valUnlocked; // board locks - session
-       global $turnCount;
-       
+        global $values;      // Values of dice
+        global $points;      // Points to be earned by this roll of dice
+        global $valUnlocked; // if this value has been used (so locked)
+        global $diceCup;     // Cup of dice
+        global $labels;      // Text labels for each cell in table
+        //global $turnCount;   // count of current turn
+        global $prpoints;    // Points to be earned/chosen previous rolls
+
+//       $myfile = fopen("db.txt", 'w') or die("Unable to open file!");
+
+       //echo "Saving file<br>";
+       $str = "";
        $arr = array();
        $ndx = 0;
        $dicecount = $diceCup->diceCount();
-       $arr[$ndx++] = $dicecount;                // Set dicecount
-       $arr[$ndx++] = $turnCount+1;              // Increment turncount
+       $arr[$ndx++] = strval($dicecount);                // Set dicecount
+       $arr[$ndx++] = strval($this->turnCount+1);        // Increment turncount 
+
        for ($n=0; $n<$dicecount; $n++) {
-           $arr[$ndx++] = $diceCup->getDieVal($n);
-       }
-       for ($n=0; $n<$dicecount; $n++) {
-           $arr[$ndx++] = $diceCup->isDieLocked($n);
+           $arr[$ndx++] = strval($diceCup->getDieVal($n));
+           $arr[$ndx++] = $diceCup->isDieLocked($n) ? 'true' : 'false';
        }
 
-       for ($n=0; $n< self::VALCNT; $n++) {
-           $arr[$ndx++] = $prpoints[$n];
+      // for ($n=0; $n<$dicecount; $n++) {
+      //       $arr[$ndx++] = $diceCup->isDieLocked($n) ? 'true' : 'false';
+      // }
+       $arr[$ndx++] = "CHECK";
+
+       for ($n=0; $n< 13; $n++) {
+           //echo "Table points:";
+           if ($valUnlocked[$n]) {
+               $arr[$ndx++] = strval($points[$n]);
+           }
+           else {
+               $arr[$ndx++] = strval($prpoints[$n]);
+           }
+           $tmp = $arr[$ndx-1];
+//           echo " $tmp";
        }
+       echo "<br>";
        
        for ($n=0; $n< self::VALCNT; $n++) {
-           $arr[$ndx++] = $valUnlocked[$n];
+           $arr[$ndx++] = $valUnlocked[$n] ? 'true' : 'false';
        }
-       return $arr;
-       setcookie("scoreboard", $arr, time() + (86400 * 30), "/" );
-      print_r($_COOKIE["scoreboard"]); echo "<br>";
+       
+       // Convert to single string
+       $str = strval($dicecount);
+       for ($n=1; $n < $ndx; $n++) {
+          $str .= "|".$arr[$n]; 
+       }
+       
+       //setcookie('scoreboard', $str, time()+(86400 * 30) );
+      $myfile = fopen("db.txt", 'w') or die("Unable to open file!");
+
+
+      fputs($myfile, $str);
+
+      fclose($myfile);
+      return $arr;
+    //   print_r($_COOKIE['scoreboard']); echo "<br>";
      
     }
     
@@ -706,32 +942,52 @@ class ScoreBoard {
     //      arr is array from cookie
     //
     function restoreBoard($arr) {
-       global $valUnlocked; // board locks - session
-       global $diceCup;     // session
-       global $prpoints;
+        global $values;      // Values of dice
+        global $points;      // Points to be earned by this roll of dice
+        global $valUnlocked; // if this value has been used (so locked)
+        global $diceCup;     // Cup of dice
+        global $labels;      // Text labels for each cell in table
+        //global $turnCount;   // count of current turn
+        global $prpoints;    // Points to be earned/chosen previous rolls
          
        $ndx = 2;
        // ScoreBoard has to have been set external to this call
        // i.e. the count has to have been used
        $dicecount = $diceCup->diceCount();
+       //echo "DiceCup ";
        for ($n=0; $n<$dicecount; $n++) {
-           $diceCup->setDieVal($arr[$ndx++]);
+           $diceCup->setDieVal($n, intval($arr[$ndx++]));
+           if (strcmp($arr[$ndx++], "true")==0) { 
+               $diceCup->lockDice($n);     
+           }
+           else {
+               $diceCup->unLockDice($n);
+           }
+
+           $tmp = $arr[$ndx-1];
+//           echo " #$n $tmp";
        }
-       for ($n=0; $n<$dicecount; $n++) {
-           $diceCup->setDielock($arr[$ndx++]);
+//       echo "<br>DiceLocks  ";
+//       for ($n=0; $n<$dicecount; $n++) {
+//           $diceCup->setDielock($n, boolval($arr[$ndx++]));
+//       }           
+       
+       $str = $arr[$ndx++];
+       if (strcmp($str, "CHECK") != 0) {
+           echo "Error found $str<br>";
+       }
+       for ($n=0; $n<self::VALCNT; $n++) {
+           $prpoints[$n] = intval($arr[$ndx++]);
        }
        
        for ($n=0; $n<self::VALCNT; $n++) {
-           $prpoints[$n] = $arr[$ndx++];
-       }
-       
-       for ($n=0; $n<self::VALCNT; $n++) {
-           $valUnlocked[$n] = $arr[$ndx++];
+           $valUnlocked[$n] = boolval($arr[$ndx++]);
        }
        
     }
 
 }
+
 
 
 /////
@@ -740,98 +996,46 @@ class ScoreBoard {
 //    pass in the array pass as a cookie between rounds.
 //
 function restore() {
-    print_r($_COOKIE); echo "<br>";
-    $scoreBoard = new ScoreBoard(7, 1); // Debug, until Cookies work        
+//    echo "In Restore print_r >";
+//    print_r($_COOKIE['scoreboard']); echo "<br>";
+//    $scoreBoard = new ScoreBoard(7, 1); // Debug, until Cookies work        
 
-    if (isset($_COOKIE["scoreboard"])) {
-        $arr = $_COOKIE["scoreboard"];
-        $scoreboard = new ScoreBoard($arr[0], $arr[1]);
-        $scoreboard->restoreBoard($arr, $turn_count);
+      $myfile = fopen("db.txt", 'r') or die("Unable to open file!");
+      //echo filesize("db.txt")."<br>";
+      $str = fread($myfile, filesize("db.txt"));
+      fclose($myfile);
+
+
+    if (strlen($str) > 20) {
+//        $str = $_COOKIE['scoreboard'];
+        //echo "$str<br>";
+        $arr = explode('|', $str);
+        //echo "Num die $arr[0] turn $arr[1]";
+        $scoreboard = new ScoreBoard(intval($arr[0]), intval($arr[1]));
+        $scoreboard->restoreBoard($arr);
         return $scoreboard;
     }
     else { 
         echo "Error in restore, failed to return scoreboard<br>"; 
-        print_r($_COOKIE);
+        echo($str);
     }
     
     return $scoreBoard;
 
 }
         
-        
-        
-        ////////
-        //  Process Post input 
-            
-            
-        //print_r($_POST);
-        $keys = array_keys($_POST);
-        $key1 = $keys[0];
-        echo "$key1<br>";
-        print_r($_POST);
-        echo "<br>";
-
-
-        switch ($key1) {
-            case "diceCount":  // From initial screen
-                print_r($_POST);
-                $ans = substr($_POST["diceCount"],0,1);
-                $dice_count_choice = (int) $ans;
-                $scoreBoard = new ScoreBoard($dice_count_choice, 0);
-
-                break;
-            case "die1": // From internal post
-            case "die2": // From internal post
-            case "die3": // From internal post
-            case "die4": // From internal post
-            case "die5": // From internal post
-            case "die6": // From internal post
-            case "die7": // From internal post
-            case "Roll":
-                $scoreBoard = restore();  // Restores 
-                $scoreBoard->clearDiceLocks();
-                foreach ($_POST as $key => $value ) {
-                    $ndx = (int) substr($key,-1);
-                    $scoreBoard->lockDice($ndx);
-                }
-                
-                $scoreBoard->updateBoard();   // Does roll
-                $scoreBoard->saveBoard();
-                break;
-            case "ScoreCard":
-                $scoreBoard = restore();  // Restores 
-                $selection = $_POST[$key1];
-                // echo "selection to lock $val <br>";
-                echo ">>$selection<br>";
-                
-                $ndx = $scoreBoard->choiceInputTranslate($selection);
-                //$amt = $scoreBoard->chooseEntry($selection);
-                echo "$amt for selection $selection<br>";
-                $scoreBoard->updateBoard();   // Does roll
-                $scoreBoard->saveBoard();
-                
-                break;
-          }
-        
-        $test = $scoreBoard->getDiceCount();  // Debug
-        
-        $ans = substr($_POST["diceCount"],0,1);
-        $dice_count_choice = (int) $ans;
-        echo "Key $firstKey<br>" ;
-        echo "$dice_count_choice<br>";
-        
-        
         // Dice image locations are denoted vi D1,D2,D3 etc
-        function displayDie($int){
-            $dice = array(
-                'D1' => '<img src="d1.png" width =80 height=100>',
+        function displayDie($n){
+
+             $dice = array(
+                'D1' => '<img src="d1.png" width =110 height=100>',
                 'D2' => '<img src="d2.png" width =80 height=100>',
                 'D3' => '<img src="d3.png" width =80 height=100>',
                 'D4' => '<img src="d4.png" width =80 height=100>',
                 'D5' => '<img src="d5.png" width =80 height=100>',
                 'D6' => '<img src="d6.png" width =80 height=100>'
             );
-            switch($int){
+            switch($n){
                 case 1: 
                     echo $dice['D1'];
                     break;
@@ -851,116 +1055,208 @@ function restore() {
                     echo $dice['D6'];
                     break;
             }
-            
-        }
+
+        }        
+        
+        // displayCheckboxes
         //prints x number of checkboxes below the dice rack
         //connected to a POST form that submits an array of boolean values
-        function displayCheckboxes($num, $diceLocks) {
+        function displayCheckboxes($num, $turns, $locks) {
+
+
+
+            $checkopt = array();
+            //echo "Locks:";
+            for ($n=0;$n<$num; $n++) {
+
+//                $name = "die".$i;
+ //               $checkopt[$n] = "$name";
+ //               $checkopt[$n] .= '" value="True" ';
+
+                if ($lock[$n]) {
+                   //echo "1";
+                   $checkopt[$n] .= ' checked="checked" ';
+                }
+                else {
+                   //echo "0";
+                   $checkopt[$n] .= " ";
+                }
+                
+//                $checkopt[$n] .= ' />';
+                  $checkopt[$n] .= ',';
+            }
+            echo "<br>"; 
+//            echo "checkopt<br>";
+//            print_r($checkopt);
             
-            
+            //echo "Turncount $turns<br>";            
             echo('<form action="game.php" method="post">');
-            
-            for ($i=0; $i < count($diceLocks) ; $i++){
-            
-               $name = "die".$i;
-               echo('<input type="checkbox" name="');
-               echo( $name );
-               echo ( '" value="True" id="keptCheckBox" ');//need to css this 
-               //echo str_repeat('&nbsp;', 5);//adds whitespace in between checkboxes
-               if ($diceLocks[$n]) {
-                  echo (' checked ');
-               }
-               echo (' />');
+
+
+            if ($turns > 0) {
+                if ($turns < 4 ) {
+                   for ($i=1; $i < $num+1 ; $i++){
+             
+                      $name = "die";
+                      $name .= "$i";
+                      echo('<input type="checkbox" name="');
+                      echo( $name );
+                      echo ( '" value="True" ');//need to css this 
+                      //echo str_repeat('&nbsp;', 5);//adds whitespace in between checkboxes
+                      $strg = $checkopt[$n-1];
+                      echo " $strg />";
+                   }
+                }
             }
             echo('<input type="submit" name="roll" value="Roll"/> ');
             echo( '</form>');
         }
         
+        
+        
+        ////////
+        //  Process Post input 
+            
+            
+        $keys = array_keys($_POST);
+        $key1 = $keys[0];
+        //echo "$key1<br>";
+//        print_r($_POST);
+        echo "<br>";
+
+
+        switch ($key1) {
+            case "diceCount":  // From initial screen
+//                print_r($_POST);
+                $ans = substr($_POST["diceCount"],0,1);
+                $dice_count_choice = (int) $ans;
+                $scoreBoard = new ScoreBoard($dice_count_choice, 0);
+                $scoreBoard->saveBoard();
+                //echo "exiting entry<br>";
+
+                break;
+                
+                
+            // From pressing roll
+          
+            case "die1": // From internal post
+            case "die2": // From internal post
+            case "die3": // From internal post
+            case "die4": // From internal post
+            case "die5": // From internal post
+            case "die6": // From internal post
+            case "die7": // From internal post
+            case "Roll":
+            case "roll":
+                
+                $scoreBoard = restore();  // Restores 
+//                $scoreBoard->setTurnCount($scoreBoard->getTurnCount()+1);
+                $scoreBoard->clearDiceLocks();
+                //echo "cleared Dice Locks<br>";
+//                print_r($_POST);
+                foreach ($_POST as $key => $value ) {
+                    //echo "Locking $key<br>";
+                    switch ($key) {
+                        case "die1": // From internal post
+                            $ndx = (int) substr($key,-1);
+                            $scoreBoard->lockDice($ndx-1);
+                            break;
+                        case "die2": // From internal post
+                            $ndx = (int) substr($key,-1);
+                            $scoreBoard->lockDice($ndx-1);
+                            break;
+                        case "die3": // From internal post
+                            $ndx = (int) substr($key,-1);
+                            $scoreBoard->lockDice($ndx-1); 
+                            break;
+                        case "die4": // From internal post
+                            $ndx = (int) substr($key,-1);
+                            $scoreBoard->lockDice($ndx-1);
+                            break;
+                        case "die5": // From internal post
+                            $ndx = (int) substr($key,-1);
+                            $scoreBoard->lockDice($ndx-1);
+                            break;
+                        case "die6": // From internal post
+                            $ndx = (int) substr($key,-1);
+                            $scoreBoard->lockDice($ndx-1);
+                            break;
+                        case "die7": // From internal post
+                            $ndx = (int) substr($key,-1);
+                            $scoreBoard->lockDice($ndx-1);
+                            break;
+                        default: break;
+                    }
+                }
+                
+                $diceCup->rollDice();
+                $scoreBoard->updateBoard();   // Does roll
+                $scoreBoard->saveBoard();
+                //echo "exiting diceroll $key<br>";
+                break;
+                
+                
+            case "ScoreCard":
+            case "scoreCard":
+                $scoreBoard = restore();  // Restores 
+                //echo "Post $key1<br>";
+                $selection = $_POST[$key1];
+                // echo "selection to lock $val <br>";
+                //echo ">>$selection<br>";
+                
+                $ndx = $scoreBoard->choiceInputTranslate($selection);
+                $amt = $scoreBoard->chooseEntry($selection);
+                //echo "$amt for selection $selection<br>";
+                $scoreBoard->updateBoard();   // Does roll
+                $scoreBoard->setTurnCount(0);
+                $scoreBoard->saveBoard();
+                //echo "exiting scoreboard<br>";
+                
+                break;
+            default:
+                echo "Error in Default with POST<br>";
+        }
+
+        $ans = substr($_POST["diceCount"],0,1);
+        $dice_count_choice = (int) $ans;
+//        echo "Key $firstKey<br>" ;
+//        echo "$dice_count_choice<br>";
+        
+        
         $numDice = $scoreBoard->getDiceCount(); 
         $diceArry = $scoreBoard->getDiceValues();
+        $turns = $scoreBoard->getTurnCount();
+        $locks = array();
+        //echo "TC pre ckbox $turns<br>";
+        $ndice = sizeof($diceArry);
         for ($n = 0; $n < $numDice; $n++) {
             displayDie($diceArry[$n]);
+            $locks[$n] = $scoreBoard->isDieLocked($n);
         }
-        $locks = $scoreBoard->getDiceLocks();
-        displayCheckboxes($numDice,$locks);
-        
-        
-        ?>
-    </div>
 
-    <!-- first td is a radio button, ALL NEED SAME NAME DIFFERENT VALUE
-        second td is populated with score via array from Classes.php many problems have arisen here
-        todo: 
-            fill in second td with form response, 
-            make it so radio button gets locked after use
-            Populate score at bottom, i believe this is tracked in Classes.php
-            css
-    -->
-    <div id="scoreCard">
-        <form action="game.php" method="post">
-            <table id= 'ScoreTable'>
-                <tbody>
-                    <tr>
-                        <td> <label><input type="radio" id="ones" name="ScoreCard" value="One">Ones</label></td>
-                        <td> </td>
-                    </tr>
-                    <tr>
-                        <td> <label><input type="radio" id="twos" name="ScoreCard" value="Two">Twos</label></td>
-                        <td> </td>
-                    </tr>
-                    <tr>
-                        <td> <label><input type="radio" id="threes" name="ScoreCard" value="Three">Threes</label></td>
-                        <td> </td>
-                    </tr>
-                    <tr>
-                        <td> <label><input type="radio" id="fours" name="ScoreCard" value="Four">Fours</label></td>                
-                        <td> </td>
-                    </tr>
-                    <tr>
-                      
-                        <td> <label><input type="radio" id="fives" name="ScoreCard" value="Five">Fives</label></td>
-                        <td> </td>
-                    </tr>
-                    <tr>
-                        <td> <label><input type="radio" id="sixes" name="ScoreCard" value="Six">Sixes</label></td> 
-                        <td> </td>
-                    </tr>
-                    <tr>
-                        <td> <label><input type="radio" id="3 of a kind" name="ScoreCard" value="Three of a kind">Three of a Kind</label></td>
-                        <td> </td>
-                    </tr>
-                    <tr>
-                        <td> <label><input type="radio" id="4 of a kind" name="ScoreCard" value="Four of a kind">Four of a Kind</label></td>
-                        <td> </td>
-                    </tr>
-                    <tr>
-                        <td> <label><input type="radio" id="Full House" name="ScoreCard" value="Full House">Full House</label></td>
-                        <td> </td>
-                    </tr>
-                    <tr>
-                        <td> <label><input type="radio" id="small straight" name="ScoreCard" value="Short Straight">Small Straight</label></td>
-                        <td> </td>
-                    </tr>
-                    <tr>
-                        <td> <label><input type="radio" id="large straight" name="ScoreCard" value="Straight">Large Straight</label></td>
-                        <td> </td>
-                    </tr>
-                    <tr>
-                        <td> <label><input type="radio" id="yahtzee" name="ScoreCard" value="Yahtzee">Yahtzee</label></td>
-                        <td> </td>
-                    </tr>
-                    <tr>
-                        <td> <label><input type="radio" id="Chance" name="ScoreCard" value="Chance">Chance</label></td>
-                        <td> </td>
-                    </tr>
-                    <tr>
-                        <td>Score: </td>
-                        <td> </td>
-                    </tr>
-                </tbody>
-            </table>
-            <input type="submit" name="scoreCard" value="Submit"/>
-        </form>
-    </div>
+        displayCheckboxes($numDice, $turns, $locks);
+        
+
+    echo ('</div>');
+
+//    <!-- first td is a radio button, ALL NEED SAME NAME DIFFERENT VALUE
+//        second td is populated with score via array from Classes.php many problems have arisen here
+//        todo: 
+//            fill in second td with form response, 
+//            make it so radio button gets locked after use
+//            Populate score at bottom, i believe this is tracked in Classes.php
+//            css
+//    -->
+    echo ('<div id="scoreCard">');
+    echo ('   <form action="game.php" method="post">');
+    echo ('       <table id= "ScoreTable">');
+    echo ('           <tbody>');
+    $scoreBoard->printScoreBoardTable();
+            ?>
+               </tbody>
+           </table>
+           <input type="submit" name="scoreCard" value="Submit"/>
+       </form>
+   </div>
   </body>
 </html>

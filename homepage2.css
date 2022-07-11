@@ -1,0 +1,502 @@
+body {
+    font: 13px/20px "Lucida Grande", Tahoma, Verdana, sans-serif;
+    color: #404040;
+    background: #90EE90;
+  }
+  
+  .login {
+    position: relative;
+    margin: 30px auto;
+    padding: 20px 20px 20px;
+    width: 310px;
+    background: white;
+    border-radius: 3px;
+    -webkit-box-shadow: 0 0 200px rgba(255, 255, 255, 0.5), 0 1px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 200px rgba(255, 255, 255, 0.5), 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+  
+  .login:before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    bottom: -8px;
+    left: -8px;
+    z-index: -1;
+    background: rgba(0, 0, 0, 0.08);
+    border-radius: 4px;
+  }
+  
+  .login h1 {
+    margin: -20px -20px 21px;
+    line-height: 40px;
+    font-size: 15px;
+    font-weight: bold;
+    color: #555;
+    text-align: center;
+    text-shadow: 0 1px white;
+    background: #f3f3f3;
+    border-bottom: 1px solid #cfcfcf;
+    border-radius: 3px 3px 0 0;
+    background-image: -webkit-linear-gradient(top, whiteffd, #eef2f5);
+    background-image: -moz-linear-gradient(top, whiteffd, #eef2f5);
+    background-image: -o-linear-gradient(top, whiteffd, #eef2f5);
+    background-image: linear-gradient(to bottom, whiteffd, #eef2f5);
+    -webkit-box-shadow: 0 1px whitesmoke;
+    box-shadow: 0 1px whitesmoke;
+  }
+  
+  .login p {
+    margin: 20px 0 0;
+  }
+  
+  .login p:first-child {
+    margin-top: 0;
+  }
+  
+  .login input[type=text], .login input[type=password] {
+    width: 278px;
+  }
+  
+  
+  .login p.submit {
+    text-align: center;
+  }
+  
+  
+  
+  :-moz-placeholder {
+    color: #c9c9c9 !important;
+    font-size: 13px;
+  }
+  
+  ::-webkit-input-placeholder {
+    color: #ccc;
+    font-size: 13px;
+  }
+  
+  input {
+    font-family: 'Lucida Grande', Tahoma, Verdana, sans-serif;
+    font-size: 14px;
+  }
+  
+  input[type=text], input[type=password] {
+    margin: 5px;
+    padding: 0 10px;
+    width: 200px;
+    height: 34px;
+    color: #404040;
+    background: white;
+    border: 1px solid;
+    border-color: #c4c4c4 #d1d1d1 #d4d4d4;
+    border-radius: 2px;
+    outline: 5px solid #eff4f7;
+    -moz-outline-radius: 3px;
+    -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.12);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.12);
+  }
+  
+  input[type=text]:focus, input[type=password]:focus {
+    border-color: #7dc9e2;
+    outline-color: #dceefc;
+    outline-offset: 0;
+  }
+  
+  input[type=submit] {
+    padding: 0 18px;
+    height: 29px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #527881;
+    text-shadow: 0 1px #e3f1f1;
+    background: #cde5ef;
+    border: 1px solid;
+    border-color: #b4ccce #b3c0c8 #9eb9c2;
+    border-radius: 16px;
+    outline: 0;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    background-image: -webkit-linear-gradient(top, #edf5f8, #cde5ef);
+    background-image: -moz-linear-gradient(top, #edf5f8, #cde5ef);
+    background-image: -o-linear-gradient(top, #edf5f8, #cde5ef);
+    background-image: linear-gradient(to bottom, #edf5f8, #cde5ef);
+    -webkit-box-shadow: inset 0 1px white, 0 1px 2px rgba(0, 0, 0, 0.15);
+    box-shadow: inset 0 1px white, 0 1px 2px rgba(0, 0, 0, 0.15);
+  }
+  
+  input[type=submit]:active {
+    background: #cde5ef;
+    border-color: #9eb9c2 #b3c0c8 #b4ccce;
+    -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.2);
+  }
+  
+  .lt-ie9 input[type=text], .lt-ie9 input[type=password] {
+    line-height: 34px;
+  }
+
+  .title {
+    text-align: center;
+    color: #245454;
+    font-family: 'Kenia';
+    text-align: center;
+    margin: 0;
+    padding: 5
+}
+
+.title2 {
+    text-align: center;
+    color: #ffe920;
+    font-family: 'Bungee Inline';
+    text-align: center;
+    font-size: 35px;
+    -webkit-text-stroke: 1px #045c5c    ;
+    margin: 0;
+    padding: 5
+}
+
+.panda{
+    position: absolute;
+    top: 30%;
+    left: 359px;
+    width: 80px;
+    height: 120px;
+    border-radius: 45%;
+    background-color: white;
+    border: 5px solid black;
+    top:289px;
+}
+
+.pandaFace{
+    position: absolute; left:343px; top:200px; ;
+    background-color: white;
+    border: 5px solid black;
+    border-radius: 60%;
+    height: 90px;
+    width: 110px;
+    bottom: 30px;
+    right: 20px;
+}
+
+.pandaEar-left, .pandaEar-right{
+position: absolute;
+background-color: black;
+height: 25px;
+width: 40px;
+border-radius: 0px 0px 40px 40px;
+}
+
+
+.pandaEar-left{
+    bottom: 13px;
+    right: 8px;
+    left:343px; 
+    top:190px;
+    transform: rotate(145deg);
+}
+
+.pandaEar-right{
+    transform: rotate(-145deg);
+    bottom: 13px;
+    left:420px; 
+    top:189px;
+}
+
+.bowtie:before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -8px;
+    width: 0px;
+    height: 0px;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 18px solid yellow;
+    border-radius: 3px;
+  }
+  .bowtie:after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 6px;
+    width: 0px;
+    height: 0px;
+    border-top: 10px solid transparent;
+    border-right: 18px solid yellow;
+    border-bottom: 10px solid transparent;
+    border-radius: 3px;
+  }
+  
+  .bowtie:after, .bowtie:before{
+    top: 295px;
+    left: 395px;
+  }
+
+  .pandaEye-left, .pandaEye-right {
+    position: absolute;
+    background-color: black;
+    width: 28px;
+    height: 33px;
+    border-radius: 50%;
+  }
+
+  .pandaEye-left {
+    bottom: 13px;
+    right: 400px;
+    left: 362px; 
+    top: 218px;
+   transform: rotate(25deg)
+  }
+
+  .pandaEye-right {
+    bottom: 23px;
+    right: 400px;
+    left: 416px; 
+    top: 218px;    
+    transform: rotate(-25deg)
+   }
+
+   .eyeball{
+     position: absolute;
+     top: 8px;
+     left: 7px;
+     width: 16px;
+     height: 16px;
+     border-radius: 50%;
+     background-color: white;
+   }
+
+   .iris{
+    position: absolute;
+    top: 11px;
+    left: 9.4px;
+    width: 13px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #045c5c;
+   }
+
+   .pupil{
+    position: absolute;
+    top: 13px;
+    left: 12.4px;
+    width: 7px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: black;
+   }
+
+   .pandaNose{
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 15px 13.5px 0 12.5px;
+    border-color: #000000 transparent transparent transparent;
+    top: 255px;
+    left: 390px;
+    border-radius: 47%;
+   }
+
+   .pandaMouth1{
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 5px 22px 0 2.5px;
+    border-color: black transparent transparent transparent;
+    top: 10px;
+    left: -12px;
+    border-radius: 47%;
+    bottom: 210px;
+   }
+
+   .pandaMouth2{
+    position: absolute;
+    border-left: 6px solid black;
+    height: 10px;
+    width: 1;
+    position: absolute;
+    left: 50%;
+    margin-left: -3px;
+    top: 0;
+   }
+
+   .blush{
+    position: absolute;
+    top: 37px;
+    left: 4.4px;
+    width: 22px;
+    height: 20px;
+    border-radius: 70%;
+    background-color: #fdb8e2;
+   }
+
+   .pandaEar1, .pandaEar2{
+    position: absolute;
+    background-color: rgb(39, 43, 43);
+    height: 14px;
+    width: 19px;
+    border-radius: 0px 0px 40px 40px;}
+
+    .pandaEar1{
+      bottom: 13px;
+      right: 8px;
+      left: 349px; 
+      top: 196px;
+      transform: rotate(145deg);
+  }
+  
+  .pandaEar2{
+    transform: rotate(-145deg);
+    bottom: 13px;
+    left: 432px; 
+    top: 196px;
+  }
+
+  .pandaHand-left, .pandaHand-right {
+    position: absolute;
+    width: 25px;
+    height: 43px;
+    background-color: black;
+    border-radius: 30px;
+  }
+
+  .pandaHand-left {
+    transform: rotate(160deg);
+    right: 33px;
+    left: 453.4px; 
+    top: 305px;
+    animation: wave 3s infinite;
+    transform-origin: top left;
+  }
+ 
+  .pandaHand-right {
+    transform: rotate(45deg);
+    bottom: 92px;
+    left: 328px;
+    top: 303px;
+  }
+
+ @keyframes wave {
+    50% {
+      transform: rotate(30deg);
+    }
+  }
+
+  .pandaLeg-left, .pandaLeg-right {
+    position: absolute;
+    width: 25px;
+    height: 33px;
+    background-color: black;
+    border-radius: 30px;
+  }
+
+  .pandaLeg-left {
+    bottom: 52px;
+    right: 33px;
+    left: 423.4px; 
+    top: 403px;
+  }
+
+  .pandaLeg-right {
+    bottom: 52px;
+    right: 33px;
+    left: 363.4px; 
+    top: 403px;
+  }
+
+
+.shadow{
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.2);
+  height: 30px;
+  width: 100px;
+  border-radius: 50%;
+  bottom: 105px;
+  right: 10px;
+  left: 357px; 
+  top: 429px;
+}
+
+.wholepanda{
+  padding: 40px;
+  position: absolute;
+  top: 345px;
+}
+
+.row {
+    display: flex;
+  }
+  
+  .column {
+    flex: 33.33%;
+    padding: 5px;
+  }
+  
+  .dice {  
+    padding: 4px;  
+    background-color: #245454; 
+    width: 104px;  
+    height: 104px;  
+    border-radius: 10%;
+    outline: 4px solid white;
+    animation: wave 20s infinite;
+    position: absolute;
+    left: 987px; 
+    top: 229px;
+  }
+  
+  @keyframes wave{
+    50%{
+      transform: rotate(360deg)
+    }
+  }
+  
+  .dot {
+    display: block;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #90f545;
+    align-items: center;
+    }
+  
+    .dot2 {
+        display: block;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background-color: #90f545;
+        position: absolute; 
+        position: center;     
+     }
+
+.fourth-face {
+    display: flex;
+    justify-content: space-between;
+
+  }
+
+  .fourth-face .column1 {
+    display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+.sixthface{
+    display: flex;
+    padding: 4px;  
+    background-color: #245454; 
+    justify-content: center;
+    align-items: center;
+    width: 104px;  
+    height: 104px;  
+    border-radius: 10%;
+    outline: 4px solid white;
+    animation: wave 20s infinite;
+    position: absolute;
+    left: 1210px; 
+    top: 109px;  
+}

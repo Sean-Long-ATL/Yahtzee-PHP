@@ -1,16 +1,32 @@
+
 body {
     font: 13px/20px "Lucida Grande", Tahoma, Verdana, sans-serif;
     color: #404040;
     background: #90EE90;
   }
 
+  h1{
+      color:#045c5c;
+      text-align: center;
+      font-family: monospace;
+
+  }
+
+  h6{
+      font-weight: bold;
+      font-family: monospace;
+      text-align: center;
+  }
+
 table{
     border-collapse: collapse;
     margin: 25px 0;
     font-size: 0.9em;
-    font-family: sans-serif;
+    font-family: monospace;
+    font-weight: bold;
     min-width: 400px;
     box-shadow: 0 0 20px rgba(0,0,0,0.15);
+    color: #045c5c;
 }
 th,
 td {
@@ -117,4 +133,3 @@ input[type=submit] {
     -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.2);
     box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.2);
   }
-

@@ -46,6 +46,7 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
     <p class="submit"><input type="submit" name="commit" value="Login"></p>
   </form>
 </div>
+<a href="projectSummaryPage.html"> Project Summary </a>
 </body>
 </html>
 

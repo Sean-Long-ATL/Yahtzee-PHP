@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #90EE90;
+    font-family: 'Raleway', sans-serif;
+    font-weight: bold;
+}
+.login input.diceCount7 {
+  text-align: right;
+}
+
+}

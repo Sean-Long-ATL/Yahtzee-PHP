@@ -35,7 +35,7 @@ foreach($content as $result){
 //pulls info from cookie, 
 $score = $_COOKIE["score"];
 $user = $_COOKIE['login'];
-//$score = 500; //for debugging
+$score = 240; //for debugging
 
 
 //adds user score to array

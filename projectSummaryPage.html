@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<title>Project 1 - YAHTZEE GAME
+</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+    .first-face {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .second-face {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .second-face .pip:nth-of-type(2) {
+        align-self: flex-end;
+    }
+
+    .third-face {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .third-face .pip:nth-of-type(2) {
+        align-self: center;
+    }
+
+    .third-face .pip:nth-of-type(3) {
+        align-self: flex-end;
+    }
+
+    .fourth-face,
+    .sixth-face {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .fourth-face .column,
+    .sixth-face .column {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .fifth-face {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .fifth-face .column {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .fifth-face .column:nth-of-type(2) {
+        justify-content: center;
+    }
+
+    /* OTHER STYLES */
+
+    * {
+        box-sizing: border-box;
+    }
+
+    html,
+    body {
+        height: 100%;
+    }
+
+    body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        vertical-align: center;
+        flex-wrap: wrap;
+        align-content: center;
+        background: linear-gradient(top, #222, #333);
+    }
+
+    [class$="face"] {
+        margin: 16px;
+        padding: 4px;
+
+        background-color: #e7e7e7;
+        width: 104px;
+        height: 104px;
+        object-fit: contain;
+
+        box-shadow:
+            inset 0 5px white,
+            inset 0 -5px #bbb,
+            inset 5px 0 #d7d7d7,
+            inset -5px 0 #d7d7d7;
+
+        border-radius: 10%;
+    }
+
+    .pip {
+        display: block;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        margin: 4px;
+
+        background-color: #333;
+        box-shadow: inset 0 3px #111, inset 0 -3px #555;
+    }
+
+    body {
+        background-color: #90EE90;
+        align-items: center;
+        font-family: Monaco;
+
+    }
+
+    h1 {
+        text-align: center;
+        color: #045c5c;
+        -webkit-text-stroke: 0.5px grey;
+    }
+
+    h6 {
+        text-align: center;
+        color: black;
+        font-size: larger;
+    }
+
+    .center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+<script src=""></script>
+
+<body>
+    <div class="body">
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <h1>Project# 1 Summary: </h1> <br>
+        <img src="icon.png" width="100px" height="100px" class="center"><br><br>
+        <p><strong>Project's Name</strong> - YAHTZEE GAME</p>
+
+        <p><strong>Leader's Name</strong> - Sean Long</p>
+        <p><strong>Team members & their roles:</strong></p>
+        <ul style="list-style-type:circle;">
+            <li>Sean Long - Backend: PHP Files; Gameplay Logic and Scoring Features</li>
+            <li>Glenn Murray - Backend: PHP Files; Gameplay Logic and Functionality</li>
+            <li>Osayande Isayere - Frontend: HTML and CSS; Login Cookie Session</li>
+            <li>Brianna Hill - Frontend: HTML and CSS; Homepage and Gameplay page design; Animation features</li>
+        </ul>
+        <p><strong>Project Description:</strong> The object of the game is to roll certain combinations of numbers with
+            five
+            dice to win
+            given the fact that at each turn you throw dice trying to get a good combination of numbers (different
+            combinations give different scores).</p>
+        <br>
+        <h6>Words to Live By: Life is a gamble. Might as well roll the dice and play to win!</h6><br>
+    </div>
+    <br>
+    <br>
+    <div class="first-face">
+        <span class="pip"></span>
+    </div>
+    <div class="second-face">
+        <span class="pip"></span>
+        <span class="pip"></span>
+    </div>
+    <div class="third-face">
+        <span class="pip"></span>
+        <span class="pip"></span>
+        <span class="pip"></span>
+    </div>
+    <div class="fourth-face">
+        <div class="column">
+            <span class="pip"></span>
+            <span class="pip"></span>
+        </div>
+        <div class="column">
+            <span class="pip"></span>
+            <span class="pip"></span>
+        </div>
+    </div>
+    <div class="fifth-face">
+        <div class="column">
+            <span class="pip"></span>
+            <span class="pip"></span>
+        </div>
+        <div class="column">
+            <span class="pip"></span>
+        </div>
+        <div class="column">
+            <span class="pip"></span>
+            <span class="pip"></span>
+        </div>
+    </div>
+    <div class="sixth-face">
+        <div class="column">
+            <span class="pip"></span>
+            <span class="pip"></span>
+            <span class="pip"></span>
+        </div>
+        <div class="column">
+            <span class="pip"></span>
+            <span class="pip"></span>
+            <span class="pip"></span>
+        </div>
+    </div>
+    <br>
+    <br>
+</body>
+
+</html>
